@@ -12,16 +12,16 @@ node {
     }
     
     stage ("Containerize the app-docker build - DataApi") {
-        sh 'docker build --rm -t event-data:v1.0 .'
+        sh 'docker build --rm -t msdevent-data:v1.0 .'
     }
     
     stage ("Inspect the docker image - DataApi"){
-        sh "docker images event-data:v1.0"
-        sh "docker inspect event-data:v1.0"
+        sh "docker images msdevent-data:v1.0"
+        sh "docker inspect msdevent-data:v1.0"
     }
     
     stage ("Run Docker container instance - DataApi"){
-        sh "docker run -d --rm --name event-data -p 8080:8080 event-data:v1.0"
+        sh "docker run -d --rm --name msdevent-data -p 8080:8080 msdevent-data:v1.0"
      }
     
     stage('User Acceptance Test - DataApi') {
@@ -32,8 +32,8 @@ node {
 	
 	  if(response=="Yes") {
 	    stage('Deploy to Kubenetes cluster - DataApi') {
-	      sh "kubectl create deployment event-data --image=event-data:v1.0"
-	      sh "kubectl expose deployment event-data --type=LoadBalancer --port=8080"
+	      sh "kubectl create deployment msdevent-data --image=msdevent-data:v1.0"
+	      sh "kubectl expose deployment msdevent-data --type=LoadBalancer --port=8080"
 	    }
 	  }
     }
